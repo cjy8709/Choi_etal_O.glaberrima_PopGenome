@@ -4,7 +4,7 @@ library(vcfR); library(pegas); library(RColorBrewer)
 # accession and assigned group name from Choi et al.
 LIST<-read.table("HaploNetwork/pop.list")
 # load data
-DF<-read.vcfR("sh1_5kbp_upstream.Obar_RefGenome.phased.vcf")
+DF<-read.vcfR("HaploNetwork/sh1_5kbp_upstream.Obar_RefGenome.phased.vcf")
 # custom color to match Choi et al.
 color=brewer.pal(9,"Set1")[c(8,6,4,2,5,3,7)]
 #####
