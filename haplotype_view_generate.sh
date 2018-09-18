@@ -1,38 +1,36 @@
 #!/bin/bash
 
 # gets specific region of interest from VCF input and converts to a haplotype format where the genotype for each site are coded as 0,1,2 for ref, het, alt genotypes
-# output file *.haplotype.txt can be visualized in R with commands in 
+# output file *.haplotype.txt can be visualized in R with commands in plot_haplotype_view.r script
 
 ###### param set up
 
-# in vcf file
-INVCF=/storage/jae.youngchoi/WORK_PROJECTS/POPULATION_GENOMIC_STUFF/glaberrima/VARIANTS/Obar_REF/FILTERED/combined.ALLCHR.ALL261.SNP.FILTERED.PASS.maf0.02_maxmissing0.8.impute.vcf
-#INVCF=/storage/jae.youngchoi/WORK_PROJECTS/POPULATION_GENOMIC_STUFF/glaberrima/VARIANTS/FILTERED/combined.ALLCHR.All282Samples.SNP.BestPracticeFilter.noIndelRegion.noRepeatRegion_noCDSOverlap.PASS.MaxMissing0.8_MAF0.02.KeepOBOG.impute.vcf
+# input vcf file containing SNPs from all individuals, all chromosomes, and imputed
+INVCF=combined.impute.vcf
 
 # outnmae
 OUTNAME="OBART07G03450_OR_OBART07G03460_PROG1"
-#OUTNAME="combined.ALLCHR.SNP.FILTERED.PASS.maxmissing0.8.maf0.05.het-maf0.05"
 
 # coordinate to extract SNPs
-COORD="7:2660603-2668534"
+COORD="7:2660603-2668534" # this example its the PROG1 region
 
 # bps to add on to $COORD
 PAD=50000
 
 ######
 
+# SCRIPT STARTS HERE
+
 # get coordinates
 CHR=$(awk -F':' '{print $1}' <<< "$COORD")
 START=$(awk -F':' '{print $2}' <<< "$COORD" | awk -F'-' '{print $1}'); START=$((START-PAD))
 END=$(awk -F':' '{print $2}' <<< "$COORD" | awk -F'-' '{print $2}'); END=$((END+PAD))
 
-#: <<'END'
 # get plink format for region of interest
 vcftools --vcf "$INVCF" --out "$OUTNAME"_"$CHR"_"$START"_"$END"_"$PAD"bpPADDED --chr "$CHR" --from-bp "$START" --to-bp "$END" --plink
 
 # get vcf format for region of interest
 vcftools --vcf "$INVCF" --recode --out "$OUTNAME"_"$CHR"_"$START"_"$END"_"$PAD"bpPADDED --chr "$CHR" --from-bp "$START" --to-bp "$END"
-#END
 
 # remove lines starting with '#' in vcf
 sed -i '/^#/ d' "$OUTNAME"_"$CHR"_"$START"_"$END"_"$PAD"bpPADDED.recode.vcf
