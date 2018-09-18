@@ -9,7 +9,7 @@ pop<-pop[!pop$V2=="white",]; pop$V2<-droplevels(pop$V2)
 
 # load genotype file
 # sh4
-df<-read.table("HAPLOTYPE_VIEW/ORGLA04G0254300_sh4_region_chr4_25125788_25177622_25kbpPadded.haplotype.txt",h=T); 
+df<-read.table("HAPLOTYPE_VIEW/ORGLA04G0254300_sh4_region_glaberrima_refgenome_chr4_25125788_25177622_25kbpPadded.haplotype.txt",h=T); 
 pop<-pop[order(pop$V1),]; df$NAME=as.character(df$NAME); df<-df[match(pop$V1,df$NAME),];
 
 # get coord for gene of interest
