@@ -1,6 +1,6 @@
 # R commands used to plot West Africa geography, and related data
 
-library(dplyr); library(RColorBrewer); library(ggplot2); library(mapdata); library(maptools); library(scatterpie); library(patchwork)
+library(dplyr); library(RColorBrewer); library(ggplot2); library(mapdata); library(maptools); library(scatterpie); library(patchwork); library(rcartocolor)
 
 #### plot West Africa geography
 # data used for drawing rivers. Can be downloaded online https://www.naturalearthdata.com/downloads/
@@ -44,7 +44,9 @@ WAmap <- WAmap + geom_path(data=watershedDF_Niger, aes(x = long, y = lat, group 
 WAmap <- WAmap + geom_path(data=watershedDF_Benue, aes(x = long, y = lat, group = group), color = 'blue', size=0.5)
 WAmap <- WAmap + geom_path(data=watershedDF_Volta, aes(x = long, y = lat, group = group), color = 'blue', size=0.5)
 WAmap <- WAmap + geom_path(data=watershedDF_Senegal, aes(x = long, y = lat, group = group), color = 'blue', size=0.5)
-WAmapRegion <- WAmap + coord_fixed(xlim = c(-19, 20),  ylim = c(4.5, 18), ratio = 1.2)+theme(line = element_blank(), panel.background = element_rect(fill = "lightsteelblue1"),legend.position="none")
+
+# focus on specific lon and lat of West Africa 
+WAmap + coord_fixed(xlim = c(-19, 20),  ylim = c(4.5, 18), ratio = 1.2)+theme(line = element_blank(), panel.background = element_rect(fill = "lightsteelblue1"),legend.position="none")
 
 
 #### plot sample distribution. Data used from S1 Table of Choi et al.
@@ -61,10 +63,10 @@ WAmapRegion+geom_point(data=pop[pop$Species=="O.barthii" & pop$SequencedBy=="Cur
 # load pop info
 pop<-read.table("ngsAdmix/pop.list",h=T,comment.char="")
 
-# load admix result
+# load admixture result
 admix<-read.table("ngsAdmix/K7.txt")
 
-# pie chart plot the admixture K group and plot it on geography 
+# pie chart plot the admixture K group and plot it on West Africa geography 
 WAmapRegion <- WAmap + coord_fixed(xlim = c(-19, 20),  ylim = c(4.5, 18), ratio = 1.2)
 for (i in which(pop$Species=="O.glaberrima")){
 data=cbind(pop[i,][,3],pop[i,][,4],admix[i,1:ncol(admix)-1]); colnames(data)=c("lat","lon",LETTERS[1:(ncol(data)-2)])
@@ -72,4 +74,11 @@ WAmapRegion=WAmapRegion+geom_scatterpie(aes(x=lon,y=lat,r=0.3),data=data,cols=LE
 }
 WAmapRegion<-WAmapRegion+scale_fill_manual(values=brewer.pal(9,"Set1")[1:length(LETTERS[1:(ncol(data)-2)])])
 WAmapRegion+theme(line = element_blank(), panel.background = element_rect(fill = "lightsteelblue1"),legend.position="none")
+
+
+#### plot seed shattering results onto West Africa geography
+shat<-read.table("S10_table.txt",h=T)
+
+WAmapRegion <- WAmap + coord_fixed(xlim = c(-19, 20),  ylim = c(4.5, 18), ratio = 1.2)+theme(line = element_blank(), panel.background = element_rect(fill = "lightsteelblue1"),legend.title=element_blank(),legend.text=element_blank())
+WAmapRegion+geom_point(data=shat,aes(Longitude,Latitude,color=Shattering_score))+scale_color_gradientn(colors=redmonder.pal(11,"dPBIPuGn")[c(2,5,8,11)])
 
