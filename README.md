@@ -8,6 +8,7 @@ FromFASTQ_to_VCF.sh
 ### calculate LD
 LD_calculator.sh
 LD_calculator.r
+
 ### plot LD
 plot_LD.r
 
