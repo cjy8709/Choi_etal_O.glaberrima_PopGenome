@@ -5,15 +5,15 @@ All files shown in the script or commands below can be found in dryad:
 FromFASTQ_to_VCF.sh
 
 ## script and commands for calculating and plotting LD
-# calculate LD
+### calculate LD
 LD_calculator.sh
 LD_calculator.r
-# plot LD
+### plot LD
 plot_LD.r
 
 ## generate output for plotting genotypes from VCF region of interest
 haplotype_view_generate.sh
-# commands for ploting (visualize) the genotypes
+### commands for ploting (visualize) the genotypes
 plot_haplotype_view.r
 
 ## commands for plotting geography of West Africa
