@@ -1,5 +1,8 @@
-# Scripts and commands used for Choi et al. O. glaberrima population genomics study
+# Scripts and commands used for Choi et al. 2019 Plos Genet Oryza glaberrima population genomics study
+https://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1007414
+
 All files shown in the script or commands below can be found in dryad:
+https://datadryad.org/resource/doi:10.5061/dryad.t7g7cj4
 
 ## commands taken from raw FASTQ to BAM to VCF generation
 FromFASTQ_to_VCF.sh
